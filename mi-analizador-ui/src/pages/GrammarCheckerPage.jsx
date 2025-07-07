@@ -16,7 +16,7 @@ function GrammarCheckerPage() {
     setFetchError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/analyze-grammar', {
+      const response = await fetch('http://52.206.17.95:8080/api/analyze-grammar', {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: textInput,
