@@ -1,0 +1,73 @@
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid #2d3748;
+    margin-bottom: 2rem;
+  }
+  
+  .tab {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px; 
+  }
+  
+  .tabActive {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+  
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .textArea {
+    width: 100%;
+    min-height: 200px;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-text-muted);
+    border-radius: var(--border-radius);
+    color: var(--color-text);
+    padding: 1rem;
+    font-family: 'Courier New', Courier, monospace; /* Buena fuente para logs */
+    font-size: 1rem;
+  }
+  
+  .textArea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  
+  .analyzeButton {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .analyzeButton:disabled {
+    background-color: #4a5568;
+    cursor: not-allowed;
+  }

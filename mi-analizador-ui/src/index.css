@@ -1,0 +1,23 @@
+/* src/index.css */
+:root {
+  --color-background: #1a202c;
+  --color-surface: #2d3748;
+  --color-primary: #38b2ac;
+  --color-primary-hover: #4fd1c5;
+  --color-text: #e2e8f0;
+  --color-text-muted: #a0aec0;
+  
+  --color-alert-high: #e53e3e;
+  --color-alert-medium: #dd6b20;
+  --color-alert-low: #d69e2e;
+
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --border-radius: 8px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}

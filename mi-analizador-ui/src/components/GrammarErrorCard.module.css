@@ -1,0 +1,42 @@
+/* src/components/GrammarErrorCard.module.css */
+.card {
+    width: 100%;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    border-left: 5px solid; /* El color se define abajo */
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  /* Colores por tipo de error */
+  .lexico { border-color: #d69e2e; } /* Amarillo */
+  .sintactico { border-color: #dd6b20; } /* Naranja */
+  .semantico { border-color: #e53e3e; } /* Rojo */
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .errorType {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .line {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .message {
+    margin: 0.5rem 0;
+  }
+  .message strong {
+    color: var(--color-primary);
+  }
+  .suggestion {
+    color: #4fd1c5;
+    font-style: italic;
+    margin-top: 0.5rem;
+    border-top: 1px dashed #4a5568;
+    padding-top: 0.5rem;
+  }

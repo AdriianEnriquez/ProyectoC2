@@ -1,0 +1,21 @@
+
+.dropzone {
+  border: 2px dashed var(--color-text-muted);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out; 
+}
+
+.dropzone:hover, 
+.dropzoneActive {
+  border-color: var(--color-primary);
+}
+
+.fileName {
+  font-weight: 500;
+  color: var(--color-primary-hover);
+}

@@ -1,0 +1,98 @@
+/* src/components/AnalysisVerdict.module.css */
+.verdictCard {
+  width: 100%;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.title {
+  font-size: 1.8rem;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.section {
+  margin-bottom: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #4a5568; /* Línea divisoria más sutil */
+}
+
+.section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  border-bottom: 1px solid #4a5568;
+  padding-bottom: 0.5rem;
+}
+
+.syntaxSummary {
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.noErrors {
+  color: #2ecc71; /* Verde */
+  font-weight: bold;
+}
+
+/* --- ESTILOS MEJORADOS PARA LA LISTA DE REPORTE SINTÁCTICO --- */
+
+.reportList {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #1a202c;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.reportItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Centra verticalmente */
+  padding: 0.75rem; /* Más espacio */
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  background-color: #2d3748;
+}
+
+/* Clases para los íconos de ÉXITO y FALLO */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.success {
+  color: #a7f3d0; /* Texto verde claro */
+}
+
+.failure {
+  color: #fca5a5; /* Texto rojo claro */
+}
+
+.successIcon {
+  color: #48bb78; /* Ícono verde */
+}
+
+.failureIcon {
+  color: #e53e3e; /* Ícono rojo */
+}
+
+.reason {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}

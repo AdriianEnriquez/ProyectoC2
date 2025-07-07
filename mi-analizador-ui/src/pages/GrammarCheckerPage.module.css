@@ -1,0 +1,66 @@
+/* src/pages/GrammarCheckerPage.module.css */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .subtitle {
+    color: var(--color-text-muted);
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .textArea {
+    width: 100%;
+    min-height: 250px;
+    background-color: var(--color-surface);
+    border: 2px solid #4a5568;
+    border-radius: var(--border-radius);
+    color: var(--color-text);
+    padding: 1rem;
+    font-family: var(--font-family);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .textArea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  
+  .analyzeButton {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .analyzeButton:disabled {
+    background-color: #4a5568;
+    cursor: not-allowed;
+  }
+  
+  .resultsContainer {
+    width: 100%;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #4a5568;
+  }
+  
+  .noErrorsFound {
+    color: #2ecc71; /* Verde */
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem;
+  }

@@ -1,0 +1,38 @@
+/* src/App.css */
+.main-header {
+  background-color: #2d3748;
+  padding: 1rem;
+  border-bottom: 1px solid #4a5568;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.main-nav a {
+  color: #a0aec0;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.main-nav a:hover {
+  color: white;
+  background-color: #4a5568;
+}
+
+/* react-router-dom agrega la clase .active al NavLink de la página actual */
+.main-nav a.active {
+  color: white;
+  background-color: var(--color-primary);
+}
+
+.disabled-link {
+  /* Para el botón de la herramienta que aún no hacemos */
+  pointer-events: none;
+  color: grey !important;
+}
