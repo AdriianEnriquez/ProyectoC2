@@ -41,7 +41,7 @@ function LogAnalyzerPage() {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/analyze-logs', {
+        const response = await fetch('http://52.206.17.95:8080/api/analyze-logs', {
             method: 'POST',
             headers: headers,
             body: body,
