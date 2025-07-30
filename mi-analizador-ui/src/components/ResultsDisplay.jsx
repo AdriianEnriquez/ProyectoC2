@@ -1,10 +1,8 @@
-// src/components/ResultsDisplay.jsx
 import styles from './ResultsDisplay.module.css';
 import AnalysisVerdict from './AnalysisVerdict';
 import TokenTable from './TokenTable';
 
 function ResultsDisplay({ results, onReset }) {
-  // Añadimos una capa de protección por si 'results' llega a ser nulo.
   if (!results) {
     return (
       <div className={styles.container}>
@@ -14,19 +12,29 @@ function ResultsDisplay({ results, onReset }) {
     );
   }
 
-  // Ahora es seguro desestructurar los datos.
-  const { lexicalAnalysis, syntacticAnalysis, semanticAnalysis } = results;
+  const { lexicalAnalysis, syntacticAnalysis, semanticAnalysis, structuralAnalysis } = results;
 
   return (
     <div className={styles.container}>
-      {/* 1. La parte de arriba: El veredicto sintáctico y las alertas semánticas (de seguridad) */}
       <AnalysisVerdict 
         syntacticAnalysis={syntacticAnalysis} 
         semanticAnalysis={semanticAnalysis} 
       />
       
-      {/* 2. La parte de abajo: La tabla detallada con el análisis léxico */}
       <TokenTable lexicalAnalysis={lexicalAnalysis} />
+
+      {structuralAnalysis && structuralAnalysis.length > 0 && (
+        <div className={styles.structuralContainer}>
+          <h3 className={styles.structuralTitle}>⚠️ Verificación Estructural Adicional</h3>
+          <ul className={styles.structuralList}>
+            {structuralAnalysis.map((finding, index) => (
+              <li key={index} className={styles.structuralItem}>
+                <strong>Línea {finding.lineNumber}:</strong> {finding.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button onClick={onReset} className={styles.resetButton}>
         Analizar otro texto
