@@ -1,14 +1,19 @@
+// ================================================
+// FILE: Back/main.go (OPTIMIZADO)
+// ================================================
 package main
 
 import (
+	"bufio" // OPTIMIZACIÓN: Importado para lectura en streaming
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
+	"net" // OPTIMIZACIÓN: Importado para validación de IP eficiente
 	"net/http"
 	"regexp"
-	"strconv"
 	"strings"
+	// "strconv" // OPTIMIZACIÓN: Ya no es necesario para validar IPs
 )
 
 type TokenType string
@@ -111,22 +116,13 @@ func lexerForLogs(line string) []Token {
 	return tokens
 }
 
+// OPTIMIZACIÓN: La función manual validateIPAddress ha sido eliminada.
+// Usaremos net.ParseIP directamente, que es más eficiente y robusto.
+/*
 func validateIPAddress(ip string) bool {
-	parts := strings.Split(ip, ".")
-	if len(parts) != 4 {
-		return false
-	}
-	for _, part := range parts {
-		num, err := strconv.Atoi(part)
-		if err != nil {
-			return false
-		}
-		if num < 0 || num > 255 {
-			return false
-		}
-	}
-	return true
+	// ... código eliminado ...
 }
+*/
 
 func parseLogLine(tokens []Token) *LogEntry {
 	failedIndex, fromIndex := -1, -1
@@ -142,7 +138,8 @@ func parseLogLine(tokens []Token) *LogEntry {
 		entry := &LogEntry{IsError: true}
 		if len(tokens) > fromIndex+1 && tokens[fromIndex+1].Type == IP {
 			ipCandidate := tokens[fromIndex+1].Value
-			if validateIPAddress(ipCandidate) {
+			// OPTIMIZACIÓN: Usar la función de librería estándar en lugar de la manual.
+			if net.ParseIP(ipCandidate) != nil {
 				entry.SourceIP = ipCandidate
 			}
 		}
@@ -157,8 +154,7 @@ func analyzeLogsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var logContent []byte
-	var err error
+	var reader io.Reader
 
 	contentType := r.Header.Get("Content-Type")
 	if strings.Contains(contentType, "multipart/form-data") {
@@ -172,37 +168,38 @@ func analyzeLogsHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer file.Close()
-		logContent, err = io.ReadAll(file)
-		if err != nil {
-			http.Error(w, "Error leyendo el contenido del archivo", http.StatusInternalServerError)
-			return
-		}
+		reader = file
 	} else {
-		logContent, err = io.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, "Error leyendo petición", http.StatusBadRequest)
-			return
-		}
+		reader = r.Body
 		defer r.Body.Close()
 	}
 
-	lines := strings.Split(string(logContent), "\n")
+	// OPTIMIZACIÓN: En lugar de leer todo el archivo, creamos un scanner para procesarlo línea por línea.
+	// Esto reduce drásticamente el uso de memoria para archivos grandes.
+	scanner := bufio.NewScanner(reader)
+
 	var lexicalResults []LexicalResult
 	var syntacticResults []SyntacticResult
 	var semanticEntries []*LogEntry
 	var structuralFindings []StructuralFinding
+	linesProcessed := 0
 
-	for i, line := range lines {
+	// OPTIMIZACIÓN: Iterar sobre el scanner en lugar de un slice de strings.
+	for scanner.Scan() {
+		line := scanner.Text()
+		linesProcessed++
+
 		if strings.TrimSpace(line) == "" {
 			continue
 		}
-		lineNumber := i + 1
+		lineNumber := linesProcessed
 		tokens := lexerForLogs(line)
 		lexicalResults = append(lexicalResults, LexicalResult{LineNumber: lineNumber, RawLine: line, Tokens: tokens})
 
 		for _, token := range tokens {
 			if token.Type == IP {
-				if !validateIPAddress(token.Value) {
+				// OPTIMIZACIÓN: Uso de `net.ParseIP` para una validación más robusta y eficiente.
+				if net.ParseIP(token.Value) == nil {
 					finding := StructuralFinding{
 						LineNumber:   lineNumber,
 						Message:      fmt.Sprintf("La dirección IP '%s' tiene un formato inválido.", token.Value),
@@ -222,6 +219,11 @@ func analyzeLogsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if err := scanner.Err(); err != nil {
+		http.Error(w, "Error leyendo el input", http.StatusInternalServerError)
+		return
+	}
+
 	ipFailureCount := make(map[string]int)
 	for _, entry := range semanticEntries {
 		if entry.IsError && entry.SourceIP != "" {
@@ -238,7 +240,7 @@ func analyzeLogsHandler(w http.ResponseWriter, r *http.Request) {
 
 	response := LogAnalysisResponse{
 		Status:             "success",
-		Summary:            AnalysisSummary{LinesProcessed: len(lines), AlertsFound: len(alerts)},
+		Summary:            AnalysisSummary{LinesProcessed: linesProcessed, AlertsFound: len(alerts)},
 		LexicalAnalysis:    lexicalResults,
 		SyntacticAnalysis:  syntacticResults,
 		StructuralAnalysis: structuralFindings,
